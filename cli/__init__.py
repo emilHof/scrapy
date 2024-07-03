@@ -29,7 +29,22 @@ class CLI:
         pass
 
     def _list(self):
-        pass
+        if self.args.mode == "tools" and not self.args.brand:
+            print("Pleas specify a brand when listing tools")
+            quit(1)
+        
+        if self.args.mode == "tools":
+            tools = self.con.get_brand_tools(self.args.brand)
+
+            for (name, model) in tools:
+                print("----------------------------------------------------------------------------------------------------------------")
+                print(f"Name: {name}")
+                print(f"Model: {model}")
+        else:
+            brands = self.con.get_brands()
+            for brand in brands:
+                print(brand)
 
     def add(self):
-        
+        self.con.add_tool(self.args.brand, self.args.name, self.args.model)
+        pass
