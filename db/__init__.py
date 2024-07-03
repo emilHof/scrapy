@@ -63,12 +63,16 @@ class Connection:
         ''')
 
     def get_brand_tools(self, brand) -> List[Tuple[str, str, str]]:
+        brands = self.get_brands()
+        if brand not in brands:
+            self.add_brand(brand)
+
         cur = self.con.cursor()
         cur.execute(f'''
             SELECT name, model, "brand-model" FROM tools
             WHERE brand = ?
         ''', (brand,))
-        tools = [(e[0], e[1]) for e in cur.fetchall()]
+        tools = [(e[0], e[1], e[2]) for e in cur.fetchall()]
         cur.close()
         return tools
 
