@@ -8,12 +8,13 @@ def parse_args():
     # scrape subcommand
     scrape = subs.add_parser("scrape")
     scrape.set_defaults(func=CLI.scrape)
+    scrape.add_argument("-c", "--condition", type=str, action="append", default=[])
 
     # list subcommand
     _list = subs.add_parser("list")
     _list.set_defaults(func=CLI._list)
     _list.add_argument("-m", "--mode", required=True, choices=["brands", "tools"])
-    _list.add_argument("-b", "--brand", type=str)
+    _list.add_argument("-b", "--brand", type=str, default=None)
 
     # add subcommand
     add = subs.add_parser("add")

@@ -55,6 +55,13 @@ SORTING_MAP = {
     "newly_listed": 10,
 }
 
+CONDITION_MAP = {
+    "new": "1000",
+    "open-box": "1500",
+    "used": "3000",
+    "for parts": "7000"
+}
+
 def ebay_brand(brand: str):
     return brand.lower().capitalize()
 
@@ -80,7 +87,7 @@ async def scrape(
                 "_sop": SORTING_MAP[sort],
                 "_pgn": page,
                 "Brand": "|".join(ebay_brand(b) for b in brands),
-                "LH_ItemCondition": "|".join(conditions)
+                "LH_ItemCondition": "|".join((CONDITION_MAP.get(c.lower()) or "") for c in conditions),
             }
         )
     print(make_request(page=1))
